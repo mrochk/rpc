@@ -5,10 +5,6 @@
 
 import xdrlib
 
-###############################################
-###               XDR ENCODE                ###
-###############################################
-
 def encode_double(val) -> bytes:
     """
     >>> encode_double(1.2).hex()
@@ -63,10 +59,6 @@ def encode_two_int(val1, val2) -> bytes:
     p.pack_int(val1)
     p.pack_int(val2)
     return p.get_buffer()
-
-###############################################
-###             XDR DECODE                  ###
-###############################################
 
 def decode_double(data : bytes):
     """
@@ -123,10 +115,6 @@ def decode_two_int(data):
     res1 = u.unpack_int()
     res2 = u.unpack_int()
     return res1, res2
-
-###############################################
-###                MAIN                     ###
-###############################################
 
 if __name__ == "__main__":
     import doctest

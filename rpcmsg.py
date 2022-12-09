@@ -5,10 +5,6 @@
 
 import xdrlib
 
-###############################################
-###             RPC CONSTANTS               ###
-###############################################
-
 CALL = 0
 REPLY = 1
 RPC_VERSION = 2
@@ -16,10 +12,6 @@ AUTH_NONE = 0
 MSG_ACCEPTED = 0
 MSG_DENIED = 1
 SUCCESS = 0
-
-###############################################
-###             ENCODE CALL                 ###
-###############################################
 
 def encode_call(xid, prog, vers, proc, data) -> bytes:
     """
@@ -37,10 +29,6 @@ def encode_call(xid, prog, vers, proc, data) -> bytes:
     p.pack_farray(2, [AUTH_NONE, AUTH_NONE], p.pack_uint)
     return p.get_buffer() + data
 
-###############################################
-###             ENCODE REPLY                ###
-###############################################
-
 def encode_reply(xid, data) -> bytes:
     """
     >>> encode_reply(1, b'ABCD').hex()
@@ -55,10 +43,6 @@ def encode_reply(xid, data) -> bytes:
     p.pack_uint(SUCCESS)
     return p.get_buffer() + data
 
-###############################################
-###            DECODE CALL                  ###
-###############################################
-
 def decode_call(msg : bytes):
     """
     >>> msg = bytes.fromhex('0000000100000000000000020000000100000001000000010000000000000000000000000000000041424344')
@@ -68,18 +52,13 @@ def decode_call(msg : bytes):
     xid = prog = vers = proc = 0
     u = xdrlib.Unpacker(msg)
     xid = u.unpack_uint()  # XID
-    u.unpack_uint()        # MSGTYPE
-    u.unpack_uint()        # VERS
+    u.unpack_farray(2, u.unpack_uint)
     prog = u.unpack_uint() # PROC
     vers = u.unpack_uint() # PROC
     proc = u.unpack_uint() # PROC
     u.unpack_farray(4, u.unpack_uint)
     data = msg[u.get_position():]
     return (xid, prog, vers, proc, data)
-
-###############################################
-###             DECODE REPLY                ###
-###############################################
 
 def decode_reply(msg):
     """
@@ -91,17 +70,9 @@ def decode_reply(msg):
     data = b''
     u = xdrlib.Unpacker(msg)
     xid = u.unpack_uint()
-    msgtype = u.unpack_uint()
-    replystate = u.unpack_uint()
-    u.unpack_uint()
-    u.unpack_uint()
-    acceptstate = u.unpack_uint()
+    u.unpack_farray(5, u.unpack_uint)
     data = msg[u.get_position():]
     return (xid, data)
-
-###############################################
-###                MAIN                     ###
-###############################################
 
 if __name__ == "__main__":
     import doctest

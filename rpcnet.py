@@ -6,15 +6,7 @@
 import socket
 import rpcmsg
 
-###############################################
-###           CONSTANTS                     ###
-###############################################
-
 MAXMSG = 1500
-
-###############################################
-###                CALL UDP                 ###
-###############################################
 
 def call(host, port, xid, prog, vers, proc, args) -> bytes:
     # Creating socket to send call to RPC Server.
@@ -30,18 +22,13 @@ def call(host, port, xid, prog, vers, proc, args) -> bytes:
     _, reply = rpcmsg.decode_reply(rep)
     return reply
 
-###############################################
-###               REPLY UDP                 ###
-###############################################
-
 def reply(sserver, handle):
     # Waiting from client request.
     call, clientaddr = sserver.recvfrom(MAXMSG)
     # Decoding the XDR formated request.
     xid, prog, vers, proc, args = rpcmsg.decode_call(call)
     # Calling handle function (returns bytes in XDR format).
-    reply = handle(xid, prog, vers, proc, args)
-    reply = rpcmsg.encode_reply(xid, reply)
+    reply = rpcmsg.encode_reply(xid, handle(xid, prog, vers, proc, args))
     # Sending the result to the client.
     sserver.sendto(reply, clientaddr)
 

@@ -44,8 +44,7 @@ def register(xid, prog, vers, port) -> bool:
     res = rpcnet.call(RPCB_HOST, RPCB_PORT, xid, 
         RPCB_PROG, RPCB_VERS, RPCBPROC_SET, args)
     u = xdrlib.Unpacker(res)
-    rpcb_res = u.unpack_bool()
-    return rpcb_res
+    return u.unpack_bool()
 
 def unregister(xid, prog, vers) -> bool:
     uaddr = ""
@@ -53,29 +52,6 @@ def unregister(xid, prog, vers) -> bool:
     res = rpcnet.call(RPCB_HOST, RPCB_PORT, xid, 
         RPCB_PROG, RPCB_VERS, RPCBPROC_UNSET, args)
     u = xdrlib.Unpacker(res)
-    rpcb_res = u.unpack_bool()
-    return rpcb_res
-
-
-# Tests :
-
-# register prog 0x30000001 (version 1) with port 4001
-
-ret1 = register(1, 0x30000001, 1, 4001)
-
-# register prog 0x30000002 (version 1) with port 4002
-
-ret2 = register(2, 0x30000002, 1, 4002)
-
-# unregister prog 0x30000002 (version 1)
-
-ret3 = unregister(3, 0x30000002, 1)
-
-# get port of program 0x30000001 (version 1)
-
-port = getport(4, 0x30000001, 1)
-
-print(ret1, ret2, ret3)
-print("port =", port)
+    return u.unpack_bool()
 
 # EOF
