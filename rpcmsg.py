@@ -1,8 +1,3 @@
-#!/usr/bin/python3
-
-# RPC Message Module
-# Author(s): Maxime Rochkoulets, Achille Harismendy
-
 import xdrlib
 
 CALL = 0
@@ -77,5 +72,3 @@ def decode_reply(msg):
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
-# EOF

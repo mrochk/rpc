@@ -1,8 +1,3 @@
-#!/usr/bin/python3
-
-# XDR Module
-# Author(s): Maxime Rochkoulets, Achille Harismendy
-
 import xdrlib
 
 def encode_double(val) -> bytes:
@@ -119,5 +114,3 @@ def decode_two_int(data):
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
-# EOF

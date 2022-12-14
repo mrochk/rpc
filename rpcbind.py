@@ -1,9 +1,3 @@
-#!/usr/bin/python3
-
-# RPC Bind Module
-# Author(s): Maxime Rochkoulets, Achille Harismendy
-
-import xdr
 import xdrlib
 import rpcnet
 
@@ -53,5 +47,3 @@ def unregister(xid, prog, vers) -> bool:
         RPCB_PROG, RPCB_VERS, RPCBPROC_UNSET, args)
     u = xdrlib.Unpacker(res)
     return u.unpack_bool()
-
-# EOF

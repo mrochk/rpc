@@ -1,8 +1,3 @@
-#!/usr/bin/python3
-
-# RPC Net Module
-# Author(s): Maxime Rochkoulets, Achille Harismendy
-
 import socket
 import rpcmsg
 
@@ -31,5 +26,3 @@ def reply(sserver, handle):
     reply = rpcmsg.encode_reply(xid, handle(xid, prog, vers, proc, args))
     # Sending the result to the client.
     sserver.sendto(reply, clientaddr)
-
-# EOF
