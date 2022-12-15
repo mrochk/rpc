@@ -10,8 +10,9 @@ RPCBPROC_SET     = 1
 RPCBPROC_UNSET   = 2
 RPCBPROC_GETADDR = 3
 
-NETID = "udp"
-OWNER = ""
+NETID         = "udp"
+OWNER         = ""
+DEFAULT_UADDR = ""
 
 def make_rpcb_struct(prog, vers, uaddr):
     p = xdrlib.Packer()
@@ -23,8 +24,7 @@ def make_rpcb_struct(prog, vers, uaddr):
     return p.get_buffer()
 
 def getport(xid, prog, vers) -> int:
-    uaddr = ""
-    args = make_rpcb_struct(prog, vers, uaddr)
+    args = make_rpcb_struct(prog, vers, DEFAULT_UADDR)
     res = rpcnet.call(RPCB_HOST, RPCB_PORT, xid, RPCB_PROG, 
         RPCB_VERS, RPCBPROC_GETADDR, args)
     u = xdrlib.Unpacker(res)
@@ -41,8 +41,7 @@ def register(xid, prog, vers, port) -> bool:
     return u.unpack_bool()
 
 def unregister(xid, prog, vers) -> bool:
-    uaddr = ""
-    args = make_rpcb_struct(prog, vers, uaddr)
+    args = make_rpcb_struct(prog, vers, DEFAULT_UADDR)
     res = rpcnet.call(RPCB_HOST, RPCB_PORT, xid, 
         RPCB_PROG, RPCB_VERS, RPCBPROC_UNSET, args)
     u = xdrlib.Unpacker(res)
