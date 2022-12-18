@@ -13,6 +13,7 @@ PROC_INC = 2
 PROC_ADD = 3
 PROC_ECHO = 4
 
+print("result procedure null =")
 result = rpcnet.call(HOST, PORT, XID, TEST_PROG, TEST_VERS, PROC_NULL, b'')
 print("result procedure null =", "null" if len(result) == 0 else "error")
 

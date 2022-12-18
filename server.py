@@ -3,15 +3,17 @@ import socket
 import rpcnet   
 import rpcbind 
 import struct
+import enum
 
 TEST_PROG = 0x20000001
 TEST_VERS = 1
 
-PROC_NULL = 0
-PROC_PI = 1
-PROC_INC = 2
-PROC_ADD = 3
-PROC_ECHO = 4
+class Proc(enum.Enum):
+  Null = 0
+  Pi   = 1
+  Inc  = 2
+  Add  = 3
+  Echo = 4
 
 def proc_null() -> bytes:
     return b''
@@ -31,17 +33,18 @@ def proc_echo(args : bytes) -> bytes:
     return args
 
 def handler(xid, prog, vers, proc, args):
-  print("=> call procedure", proc)
-  if proc == PROC_NULL:
-    return proc_null()
-  if proc == PROC_PI:
-    return proc_pi()
-  if proc == PROC_INC:
-    return proc_inc(args)
-  if proc == PROC_ADD:
-    return proc_add(args)
-  if proc == PROC_ECHO:
-    return proc_echo(args)
+	print("=> call procedure", proc)
+	match proc:
+		case Proc.Null:
+			return proc_null()
+		case Proc.Pi:
+			return proc_pi()
+		case Proc.Inc:
+			return proc_inc(args)
+		case Proc.Add:
+			return proc_add(args)
+		case Proc.Echo:
+			return proc_echo(args)
 
 if __name__ == '__main__':
     if (len(sys.argv) != 2) :
