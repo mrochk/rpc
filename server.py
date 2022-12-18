@@ -8,43 +8,43 @@ import enum
 TEST_PROG = 0x20000001
 TEST_VERS = 1
 
-class Proc(enum.Enum):
-  Null = 0
-  Pi   = 1
-  Inc  = 2
-  Add  = 3
-  Echo = 4
+class Procedure(enum.Enum):
+	Null = 0
+	Pi   = 1
+	Inc  = 2
+	Add  = 3
+	Echo = 4
 
-def proc_null() -> bytes:
-    return b''
+	def null() -> bytes:
+		return b''
 
-def proc_pi() -> bytes:
-    return(struct.pack(">d", 3.1415926))
+	def pi() -> bytes:
+		return(struct.pack(">d", 3.1415926))
 
-def proc_inc(args : bytes) -> bytes:
-    arg = int.from_bytes(args, "big")
-    return int.to_bytes(arg + 1, 4, "big")
+	def inc(args : bytes) -> bytes:
+		arg = int.from_bytes(args, "big")
+		return int.to_bytes(arg + 1, 4, "big")
+		
+	def add(args : bytes) -> bytes:
+		arg1, arg2 = int.from_bytes(args[:4], "big"), int.from_bytes(args[4:], "big")
+		return int.to_bytes(arg1 + arg2, 4, "big")
 
-def proc_add(args : bytes) -> bytes:
-    arg1, arg2 = int.from_bytes(args[:4], "big"), int.from_bytes(args[4:], "big")
-    return int.to_bytes(arg1 + arg2, 4, "big")
-
-def proc_echo(args : bytes) -> bytes:
-    return args
+	def echo(args : bytes) -> bytes:
+		return args
 
 def handler(xid, prog, vers, proc, args):
-	print("=> call procedure", proc)
+	print("=> call Procedureedure", Procedure)
 	match proc:
-		case Proc.Null:
-			return proc_null()
-		case Proc.Pi:
-			return proc_pi()
-		case Proc.Inc:
-			return proc_inc(args)
-		case Proc.Add:
-			return proc_add(args)
-		case Proc.Echo:
-			return proc_echo(args)
+		case Procedure.Null:
+			return Procedure.null()
+		case Procedure.Pi:
+			return Procedure.pi()
+		case Procedure.Inc:
+			return Procedure.inc(args)
+		case Procedure.Add:
+			return Procedure.add(args)
+		case Procedure.Echo:
+			return Procedure.echo(args)
 
 if __name__ == '__main__':
     if (len(sys.argv) != 2) :
