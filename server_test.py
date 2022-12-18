@@ -1,16 +1,16 @@
 import xdr
 import rpcnet
 
-HOST = "localhost"
-PORT = 7777
+HOST      = "localhost"
+PORT      = 7777
 TEST_PROG = 0x20000001
 TEST_VERS = 1
-XID = 1000
+XID       = 1000
 
 PROC_NULL = 0
-PROC_PI = 1
-PROC_INC = 2
-PROC_ADD = 3
+PROC_PI   = 1
+PROC_INC  = 2
+PROC_ADD  = 3
 PROC_ECHO = 4
 
 print("result procedure null =")
