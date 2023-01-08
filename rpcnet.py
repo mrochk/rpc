@@ -20,7 +20,6 @@ def call(host, port, xid, prog, vers, proc, args) -> bytes:
 def reply(sserver, handle):
     # Waiting from client request.
     call, clientaddr = sserver.recvfrom(MAXMSG)
-    print(call)
     # Decoding the XDR formated request.
     xid, prog, vers, proc, args = rpcmsg.decode_call(call)
     # Calling handle function (returns bytes in XDR format).

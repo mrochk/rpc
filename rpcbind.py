@@ -1,18 +1,16 @@
 import xdrlib
 import rpcnet
 
-RPCB_HOST = "localhost"
-RPCB_PORT = 111
-RPCB_PROG = 100000 # rpcbind / portmap
-RPCB_VERS = 4
-
+RPCB_HOST        = "localhost"
+RPCB_PORT        = 111
+RPCB_PROG        = 100000 
+RPCB_VERS        = 4
 RPCBPROC_SET     = 1
 RPCBPROC_UNSET   = 2
 RPCBPROC_GETADDR = 3
-
-NETID         = "udp"
-OWNER         = ""
-DEFAULT_UADDR = ""
+NETID            = "udp"
+OWNER            = ""
+DEFAULT_UADDR    = ""
 
 def make_rpcb_struct(prog, vers, uaddr):
     p = xdrlib.Packer()

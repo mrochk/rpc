@@ -106,7 +106,7 @@ def decode_two_int(data):
     >>> decode_two_int(msg)
     (-1, 2)
     """
-    u = xdrlib.Unpacker(data)
+    u    = xdrlib.Unpacker(data)
     res1 = u.unpack_int()
     res2 = u.unpack_int()
     return res1, res2

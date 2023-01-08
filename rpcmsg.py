@@ -1,12 +1,12 @@
 import xdrlib
 
-CALL = 0
-REPLY = 1
-RPC_VERSION = 2
-AUTH_NONE = 0
+CALL         = 0
+REPLY        = 1
+RPC_VERSION  = 2
+AUTH_NONE    = 0
 MSG_ACCEPTED = 0
-MSG_DENIED = 1
-SUCCESS = 0
+MSG_DENIED   = 1
+SUCCESS      = 0
 
 def encode_call(xid, prog, vers, proc, data) -> bytes:
     """
@@ -44,9 +44,9 @@ def decode_call(msg : bytes):
     >>> decode_call(msg)
     (1, 1, 1, 1, b'ABCD')
     """
-    xid = prog = vers = proc = 0
-    u = xdrlib.Unpacker(msg)
-    xid = u.unpack_uint()  # XID
+    xid  = prog = vers = proc = 0
+    u    = xdrlib.Unpacker(msg)
+    xid  = u.unpack_uint()  # XID
     u.unpack_farray(2, u.unpack_uint)
     prog = u.unpack_uint() # PROC
     vers = u.unpack_uint() # PROC
@@ -61,10 +61,10 @@ def decode_reply(msg):
     >>> decode_reply(msg)
     (1, b'ABCD')
     """
-    xid = 0
+    xid  = 0
     data = b''
-    u = xdrlib.Unpacker(msg)
-    xid = u.unpack_uint()
+    u    = xdrlib.Unpacker(msg)
+    xid  = u.unpack_uint()
     u.unpack_farray(5, u.unpack_uint)
     data = msg[u.get_position():]
     return (xid, data)

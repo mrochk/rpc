@@ -14,26 +14,21 @@ class Procedure(enum.Enum):
 	Inc  = 2
 	Add  = 3
 	Echo = 4
-
 	def null() -> bytes:
 		return b''
-
 	def pi() -> bytes:
 		return(struct.pack(">d", 3.1415926))
-
 	def inc(args : bytes) -> bytes:
 		arg = int.from_bytes(args, "big")
 		return int.to_bytes(arg + 1, 4, "big")
-		
 	def add(args : bytes) -> bytes:
-		arg1, arg2 = int.from_bytes(args[:4], "big"), int.from_bytes(args[4:], "big")
+		arg1 = int.from_bytes(args[:4], "big"), 
+		arg2 = int.from_bytes(args[4:], "big")
 		return int.to_bytes(arg1 + arg2, 4, "big")
-
 	def echo(args : bytes) -> bytes:
 		return args
 
 def handler(xid, prog, vers, proc, args):
-	print("=> call Procedureedure", Procedure)
 	match proc:
 		case Procedure.Null:
 			return Procedure.null()
